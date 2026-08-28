@@ -165,14 +165,14 @@ h2.display .accent{color:var(--gold)}
 
 /* ---------- marquee ---------- */
 .marquee{background:var(--gold);color:#111;padding:22px 0;overflow:hidden;border-block:2px solid #111}
-.marquee-track{display:flex;gap:0;width:max-content;animation:slide 38s linear infinite}
-.marquee span{
+.marquee-track{display:flex;gap:0;width:max-content;will-change:transform;animation:slide 38s linear infinite}
+.marquee .mq-item{
   font-family:var(--display);font-weight:900;font-size:1.35rem;letter-spacing:.02em;
-  white-space:nowrap;padding-right:2.5rem;text-transform:uppercase;
+  white-space:nowrap;padding-right:2.5rem;text-transform:uppercase;flex:0 0 auto;
 }
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){
-  .marquee-track{animation:none;width:100%;justify-content:center}
+  .marquee-track{animation:none;transform:none}
   html{scroll-behavior:auto}
 }
 
@@ -395,9 +395,11 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.1);padding
 
 <!-- ============ MARQUEE ============ -->
 <div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span data-cms-field="marquee.text">FLY FIT JAGS &nbsp;***&nbsp; IMPACT THE FUTURE &nbsp;***&nbsp; POWER TO PLAY &nbsp;***&nbsp;</span>
-    <span>FLY FIT JAGS &nbsp;***&nbsp; IMPACT THE FUTURE &nbsp;***&nbsp; POWER TO PLAY &nbsp;***&nbsp;</span>
+  <div class="marquee-track" id="mqTrack">
+    <!-- ONE source item. The script below clones it until the strip is wider than any
+         screen, so the loop never runs out of text. Editing the text in the admin
+         console changes this one span and the clones rebuild themselves. -->
+    <span class="mq-item" data-cms-field="marquee.text">FLY FIT JAGS &nbsp;***&nbsp; IMPACT THE FUTURE &nbsp;***&nbsp; POWER TO PLAY &nbsp;***&nbsp;</span>
   </div>
 </div>
 
@@ -490,6 +492,57 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.1);padding
 </footer>
 
 <script>
+/* ---- infinite marquee ----
+   The strip has to be at least twice the viewport wide or translateX(-50%) lands on
+   empty space and the text visibly runs out. So: measure one item, clone it until one
+   half of the track overflows the screen, and scale the duration to keep a constant
+   pixel speed at any width. Rebuilds on resize and whenever cms-loader swaps the text. */
+(function(){
+  var PX_PER_SEC = 62;
+  var track = document.getElementById('mqTrack');
+  if(!track) return;
+  var source = track.querySelector('.mq-item');
+  if(!source) return;
+  var busy = false;
+
+  function build(){
+    if(busy) return;
+    busy = true;
+    try{
+      var text = source.textContent;
+      var clones = track.querySelectorAll('.mq-clone');
+      for(var j = 0; j < clones.length; j++) clones[j].parentNode.removeChild(clones[j]);
+
+      var one = source.getBoundingClientRect().width;
+      if(!one){ return; }
+
+      // Items per half: enough that one half always covers the viewport, min 2.
+      var perHalf = Math.max(2, Math.ceil(window.innerWidth / one) + 1);
+      var frag = document.createDocumentFragment();
+      for(var i = 1; i < perHalf * 2; i++){
+        var c = document.createElement('span');
+        c.className = 'mq-item mq-clone';
+        c.textContent = text;
+        frag.appendChild(c);
+      }
+      track.appendChild(frag);
+      track.style.animationDuration = ((perHalf * one) / PX_PER_SEC).toFixed(2) + 's';
+    } finally {
+      busy = false;
+    }
+  }
+
+  build();
+  // Web fonts change the measured width, so measure again once they land.
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+  // cms-loader rewrites the source text after its fetch resolves.
+  if(window.MutationObserver){
+    new MutationObserver(build).observe(source, { childList:true, characterData:true, subtree:true });
+  }
+  var rt;
+  window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(build, 200); });
+})();
+
 /* ---- mobile nav ---- */
 (function(){
   var t = document.getElementById('navToggle'), n = document.getElementById('mainNav');

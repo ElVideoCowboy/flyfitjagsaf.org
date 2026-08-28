@@ -1,0 +1,6 @@
+# Fly Fit Jags Athletic Foundation — public site, index everything except the admin console.
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://flyfitjagsaf.org/sitemap.xml

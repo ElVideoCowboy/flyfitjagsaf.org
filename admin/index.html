@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Fly Fit Jags</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#000;--card:#161616;--panel:#1e1e1e;--gold:#c69649;--gold-lift:#d9ab5f;
+  --muted:#bfbfbf;--dim:#8a8a8a;--line:rgba(255,255,255,.14);
+  --display:"Poppins",sans-serif;--body:"Inter",system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:#fff;font-family:var(--body);min-height:100vh}
+.screen{display:none}
+.screen.active{display:block}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1rem 1.6rem;background:#0b0b0b;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:40;
+}
+.topbar .brand{display:flex;align-items:center;gap:.7rem;font-family:var(--display);font-weight:800;font-size:.95rem}
+.topbar .mark{width:34px;height:34px;border-radius:10px;background:var(--gold);color:#111;display:grid;place-items:center;font-weight:900;font-size:.78rem}
+.topbar .tag{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.topbar button.logout{
+  background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;
+  padding:.5rem 1.1rem;font-family:var(--display);font-weight:600;font-size:.75rem;cursor:pointer;
+}
+.topbar button.logout:hover{border-color:var(--gold);color:var(--gold)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:2.4rem 1.6rem 5rem}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+h1{font-family:var(--display);font-weight:900;font-size:1.9rem;letter-spacing:-.02em;margin-bottom:1.8rem}
+
+.page-card{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:1.3rem 1.5rem;margin-bottom:.8rem;cursor:pointer;
+  transition:border-color .15s,transform .12s;
+}
+.page-card:hover{border-color:var(--gold);transform:translateX(3px)}
+.page-card .name{font-family:var(--display);font-weight:800;font-size:1.1rem}
+.page-card .url{font-size:.82rem;color:var(--dim);margin-top:.15rem}
+.page-card .go{font-family:var(--display);font-weight:700;font-size:.8rem;color:var(--gold);white-space:nowrap}
+
+.back-link{background:none;border:0;color:var(--dim);font-family:var(--display);font-weight:600;font-size:.8rem;cursor:pointer;padding:0;margin-bottom:1.2rem}
+.back-link:hover{color:var(--gold)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem;margin-bottom:1.3rem}
+.panel h3{font-family:var(--display);font-weight:800;font-size:1.05rem;margin-bottom:.8rem}
+.hint{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:1.1rem}
+.hint b{color:var(--gold)}
+
+.link-bar{
+  display:none;align-items:center;gap:.7rem;flex-wrap:wrap;
+  background:#0b0b0b;border:1px solid var(--gold);border-radius:12px;padding:.8rem 1rem;margin-bottom:1rem;
+}
+.link-bar.show{display:flex}
+.link-bar .lb-tag{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.link-bar .lb-label{font-size:.82rem;color:var(--muted);max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-bar input{
+  flex:1;min-width:200px;background:#000;border:1px solid #2e2e2e;border-radius:9px;
+  padding:.55rem .75rem;font-family:var(--body);font-size:.88rem;color:#fff;
+}
+.link-bar input:focus{outline:none;border-color:var(--gold)}
+.link-bar button{
+  background:var(--gold);color:#111;border:0;border-radius:999px;padding:.55rem 1.1rem;
+  font-family:var(--display);font-weight:700;font-size:.76rem;cursor:pointer;
+}
+.link-bar button:hover{background:var(--gold-lift)}
+.link-bar .lb-status{font-size:.78rem;color:#5fd88a}
+.link-bar .lb-status.err{color:#ff8b7a}
+
+.frame-wrap{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000}
+.frame-wrap iframe{width:100%;height:780px;border:0;display:block}
+.frame-loading{
+  position:absolute;inset:0;display:grid;place-items:center;background:#000;
+  color:var(--dim);font-size:.9rem;text-align:center;padding:2rem;
+}
+
+.publish{
+  position:sticky;bottom:1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  background:#0b0b0b;border:1px solid var(--gold);border-radius:16px;padding:1.1rem 1.4rem;margin-top:1.5rem;flex-wrap:wrap;
+}
+.publish .status{font-size:.86rem;color:var(--dim)}
+.publish .status.saving{color:var(--gold)}
+.publish .status.done{color:#5fd88a}
+.publish .status.error{color:#ff8b7a}
+.publish button{
+  background:var(--gold);color:#111;border:0;border-radius:999px;padding:.85rem 1.9rem;
+  font-family:var(--display);font-weight:700;font-size:.9rem;cursor:pointer;
+}
+.publish button:hover{background:var(--gold-lift)}
+.publish button:disabled{opacity:.55;cursor:default}
+.loading{color:var(--dim);padding:2rem 0;font-size:.9rem}
+@media (max-width:640px){ .frame-wrap iframe{height:560px} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand"><span class="mark">FFJ</span> Fly Fit Jags <span class="tag">/ Admin</span></span>
+  <button class="logout" id="logoutBtn">Log Out</button>
+</div>
+
+<!-- ============ PAGE LIST ============ -->
+<div class="screen active" id="screenPages">
+  <div class="wrap">
+    <p class="eyebrow">Your Pages</p>
+    <h1>Everything you can edit</h1>
+    <div id="pageList" class="loading">Loading pages…</div>
+  </div>
+</div>
+
+<!-- ============ EDITOR ============ -->
+<div class="screen" id="screenEditor">
+  <div class="wrap">
+    <button class="back-link" id="backBtn">&larr; All pages</button>
+    <p class="eyebrow" id="editorSlugLabel">Editing</p>
+    <h1 id="editorPageName">Page</h1>
+
+    <div class="panel">
+      <h3>Live page preview</h3>
+      <p class="hint">
+        This is the real page. Anything with a <b>gold dashed outline</b> can be edited — click it and type.
+        Click a <b>button or link</b> and a bar appears below where you can change where it points.
+        Nothing goes live until you hit <b>Save &amp; Publish</b>.
+      </p>
+
+      <div class="link-bar" id="linkBar">
+        <span class="lb-tag">Link for</span>
+        <span class="lb-label" id="linkBarLabel"></span>
+        <input type="text" id="linkBarInput" placeholder="https://… or /page or #section or mailto:…">
+        <button type="button" id="linkBarApply">Set Link</button>
+        <span class="lb-status" id="linkBarStatus"></span>
+      </div>
+
+      <div class="frame-wrap">
+        <iframe id="previewFrame" title="Live page preview"></iframe>
+        <div class="frame-loading" id="previewLoading">Loading preview…</div>
+      </div>
+    </div>
+
+    <div class="publish">
+      <span class="status" id="saveStatus">No changes yet</span>
+      <button id="saveBtn" type="button">Save &amp; Publish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentSlug = null;
+let linkValues = {};
+let currentLinkPath = null;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ---------- session ---------- */
+async function checkSession(){
+  try{
+    const res = await fetch('/api/me');
+    const data = await res.json();
+    if(!data.loggedIn) window.location.href = '/admin/login.html';
+  }catch(e){
+    window.location.href = '/admin/login.html';
+  }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await fetch('/api/logout', { method:'POST' });
+  window.location.href = '/admin/login.html';
+});
+document.getElementById('backBtn').addEventListener('click', () => showScreen('screenPages'));
+
+/* ---------- dot-path helpers (numeric segments become array indexes) ---------- */
+function getByPath(obj, path){
+  return path.split('.').reduce((acc,k) => (acc == null ? undefined : acc[k]), obj);
+}
+function setByPath(obj, path, value){
+  const parts = path.split('.');
+  let cur = obj;
+  for(let i=0;i<parts.length-1;i++){
+    const key = parts[i];
+    const nextIsIndex = /^\d+$/.test(parts[i+1]);
+    if(cur[key] == null) cur[key] = nextIsIndex ? [] : {};
+    cur = cur[key];
+  }
+  cur[parts[parts.length-1]] = value;
+}
+
+/* ---------- page list ---------- */
+async function loadPageList(){
+  const listEl = document.getElementById('pageList');
+  try{
+    const res = await fetch('/assets/content/manifest.json', { cache:'no-store' });
+    const data = await res.json();
+    listEl.innerHTML = '';
+    listEl.className = '';
+    (data.pages || []).forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'page-card';
+      card.innerHTML = '<div><div class="name"></div><div class="url"></div></div><span class="go">Edit &rarr;</span>';
+      card.querySelector('.name').textContent = p.name;
+      card.querySelector('.url').textContent = window.location.hostname + p.url;
+      card.addEventListener('click', () => openEditor(p.slug, p.name, p.url));
+      listEl.appendChild(card);
+    });
+    if(!data.pages || !data.pages.length) listEl.textContent = 'No pages found in manifest.json.';
+  }catch(e){
+    listEl.textContent = 'Could not load the page list.';
+  }
+}
+
+/* ---------- link editing ---------- */
+const isSafeHref = v => /^(https?:\/\/|\/|#|tel:|mailto:|sms:)/i.test(String(v).trim());
+
+function showLinkBar(el){
+  const path = el.dataset.cmsLink;
+  currentLinkPath = path;
+  const label = (el.textContent || '').trim().replace(/\s+/g,' ').slice(0,40) || path;
+  document.getElementById('linkBarLabel').textContent = '“' + label + '”';
+  document.getElementById('linkBarInput').value = linkValues[path] != null ? linkValues[path] : (el.getAttribute('href') || '');
+  document.getElementById('linkBarStatus').textContent = '';
+  document.getElementById('linkBar').classList.add('show');
+  document.getElementById('linkBar').scrollIntoView({block:'nearest'});
+}
+
+document.getElementById('linkBarApply').addEventListener('click', () => {
+  const statusEl = document.getElementById('linkBarStatus');
+  if(!currentLinkPath) return;
+  const val = document.getElementById('linkBarInput').value.trim();
+  if(val && !isSafeHref(val)){
+    statusEl.textContent = '✗ Use https://… , /page , #section , mailto: or tel:';
+    statusEl.className = 'lb-status err';
+    return;
+  }
+  linkValues[currentLinkPath] = val;
+  const doc = document.getElementById('previewFrame').contentDocument;
+  if(doc){
+    const el = doc.querySelector('[data-cms-link="' + currentLinkPath + '"]');
+    if(el && val) el.setAttribute('href', val);
+  }
+  statusEl.textContent = '✓ set — hit Save & Publish to make it live';
+  statusEl.className = 'lb-status';
+  markDirty();
+});
+
+/* ---------- preview editing ---------- */
+function markDirty(){
+  const s = document.getElementById('saveStatus');
+  s.textContent = 'Unsaved changes';
+  s.className = 'status';
+}
+
+function activatePreviewEditing(doc, data){
+  // Seed text from the same data object the editor holds, so there's no race with the
+  // iframe's own cms-loader fetch.
+  doc.querySelectorAll('[data-cms-field]').forEach(el => {
+    const val = getByPath(data, el.dataset.cmsField);
+    if(typeof val === 'string' && val) el.textContent = val;
+  });
+
+  linkValues = {};
+  currentLinkPath = null;
+  document.getElementById('linkBar').classList.remove('show');
+
+  doc.querySelectorAll('[data-cms-link]').forEach(el => {
+    const path = el.dataset.cmsLink;
+    const fromJson = getByPath(data, path);
+    linkValues[path] = (typeof fromJson === 'string' && fromJson.trim()) ? fromJson.trim() : (el.getAttribute('href') || '');
+    el.addEventListener('click', e => { e.preventDefault(); showLinkBar(el); });
+    el.addEventListener('focusin', () => showLinkBar(el));
+  });
+
+  const style = doc.createElement('style');
+  style.textContent = [
+    '[data-cms-field]{outline:2px dashed rgba(198,150,73,.55);outline-offset:2px;cursor:text;border-radius:3px;transition:outline-color .12s,background-color .12s}',
+    '[data-cms-field]:hover{outline-color:#c69649;background-color:rgba(198,150,73,.12)}',
+    '[data-cms-field]:focus{outline-style:solid;background-color:rgba(198,150,73,.16)}',
+    '[data-cms-link]{cursor:pointer}',
+    '[data-cms-link]::after{content:"🔗";font-size:.66em;margin-left:.35em;opacity:.6}',
+    '[data-cms-link]:hover::after{opacity:1}'
+  ].join('\n');
+  doc.head.appendChild(style);
+
+  doc.querySelectorAll('[data-cms-field]').forEach(el => {
+    el.contentEditable = 'true';
+    el.spellcheck = false;
+    el.addEventListener('input', markDirty);
+    if(el.tagName === 'A') el.addEventListener('click', e => e.preventDefault());
+  });
+
+  // Stop the preview's own form from submitting while editing.
+  doc.querySelectorAll('form').forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+}
+
+function collectFields(){
+  const out = {};
+  const doc = document.getElementById('previewFrame').contentDocument;
+  if(!doc) return out;
+  doc.querySelectorAll('[data-cms-field]').forEach(el => {
+    setByPath(out, el.dataset.cmsField, el.textContent.trim());
+  });
+  doc.querySelectorAll('[data-cms-link]').forEach(el => {
+    const path = el.dataset.cmsLink;
+    setByPath(out, path, linkValues[path] != null ? linkValues[path] : (el.getAttribute('href') || ''));
+  });
+  return out;
+}
+
+/* ---------- open a page ---------- */
+async function openEditor(slug, name, url){
+  currentSlug = slug;
+  document.getElementById('editorSlugLabel').textContent = 'Editing · ' + slug;
+  document.getElementById('editorPageName').textContent = name;
+  const status = document.getElementById('saveStatus');
+  status.textContent = 'Loading…';
+  status.className = 'status';
+  showScreen('screenEditor');
+
+  let data = {};
+  try{
+    const res = await fetch('/assets/content/' + slug + '.json', { cache:'no-store' });
+    if(res.ok) data = await res.json();
+  }catch(e){ /* fall through to the page's own static copy */ }
+
+  const loading = document.getElementById('previewLoading');
+  const frame = document.getElementById('previewFrame');
+  loading.style.display = 'grid';
+  loading.textContent = 'Loading preview…';
+
+  frame.onload = () => {
+    try{
+      activatePreviewEditing(frame.contentDocument, data);
+      loading.style.display = 'none';
+      status.textContent = 'No changes yet';
+    }catch(e){
+      loading.textContent = 'Could not load the live preview for this page.';
+    }
+  };
+  frame.src = url + (url.includes('?') ? '&' : '?') + '_preview=' + Date.now();
+}
+
+/* ---------- publish ---------- */
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const status = document.getElementById('saveStatus');
+  const btn = document.getElementById('saveBtn');
+  status.textContent = 'Saving…';
+  status.className = 'status saving';
+  btn.disabled = true;
+
+  try{
+    const res = await fetch('/api/save', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ slug: currentSlug, content: collectFields() })
+    });
+    const data = await res.json();
+    if(res.ok && data.ok){
+      status.textContent = '✓ ' + (data.message || 'Published');
+      status.className = 'status done';
+    }else{
+      status.textContent = '✗ ' + (data.error || 'Save failed');
+      status.className = 'status error';
+    }
+  }catch(e){
+    status.textContent = '✗ Could not reach the server';
+    status.className = 'status error';
+  }
+  btn.disabled = false;
+});
+
+checkSession();
+loadPageList();
+</script>
+</body>
+</html>

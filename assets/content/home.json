@@ -1,7 +1,6 @@
 {
   "brand": {
-    "name": "Fly Fit Jags",
-    "tagline": "Athletic Foundation"
+    "name": "Fly Fit Jags"
   },
   "nav": {
     "mission": "The Mission",
@@ -15,8 +14,8 @@
     "headline": "Every Child Deserves a Chance to Play.",
     "subhead": "Empowering young athletes through access, opportunity, and community.",
     "ctaPrimary": "Donate Now",
-    "ctaPrimaryUrl": "[[DONATE_URL]]",
     "ctaSecondary": "Apply for Support",
+    "ctaPrimaryUrl": "[[DONATE_URL]]",
     "ctaSecondaryUrl": "#connect"
   },
   "mission": {
@@ -32,9 +31,9 @@
     "headline": "Take the Journey — Spain 2026",
     "body": "Experience more than just competition. This summer, our young athletes travel to Spain to immerse themselves in a world-class sports culture, gain international perspective, and foster character through teamwork and global connection. Every goal scored and every cultural discovery fuels their growth as future leaders.",
     "cta": "Support the Spain Trip",
-    "ctaUrl": "[[DONATE_URL]]",
     "artWord": "SPAIN",
-    "artYear": "2026"
+    "artYear": "2026",
+    "ctaUrl": "[[DONATE_URL]]"
   },
   "give": {
     "eyebrow": "Make an Impact",
@@ -110,10 +109,10 @@
     "blurb": "Removing the financial barriers that keep kids off the field — one athlete, one season, one community at a time.",
     "address": "123 Jags Way, Suite 100, West Palm Beach, FL 33401",
     "email": "hello@flyfitjags.foundation",
-    "emailUrl": "mailto:hello@flyfitjags.foundation",
     "status": "Registered 501(c)(3) Nonprofit Organization",
     "copyright": "© 2026 Fly Fit Jags Athletic Foundation",
-    "credit": "Site by ElVideoCowboy",
+    "credit": "",
+    "emailUrl": "mailto:hello@flyfitjags.foundation",
     "facebook": "#",
     "instagram": "#",
     "youtube": "#",

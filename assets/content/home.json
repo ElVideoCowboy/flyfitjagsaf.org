@@ -1,0 +1,124 @@
+{
+  "brand": {
+    "name": "Fly Fit Jags",
+    "tagline": "Athletic Foundation"
+  },
+  "nav": {
+    "mission": "The Mission",
+    "journey": "The Journey",
+    "give": "Give",
+    "support": "Need Support?",
+    "donateLabel": "Donate Now",
+    "donateUrl": "[[DONATE_URL]]"
+  },
+  "hero": {
+    "headline": "Every Child Deserves a Chance to Play.",
+    "subhead": "Empowering young athletes through access, opportunity, and community.",
+    "ctaPrimary": "Donate Now",
+    "ctaPrimaryUrl": "[[DONATE_URL]]",
+    "ctaSecondary": "Apply for Support",
+    "ctaSecondaryUrl": "#connect"
+  },
+  "mission": {
+    "eyebrow": "The Mission",
+    "headlineAccent": "the Game",
+    "body": "We believe that financial barriers should never sideline potential. Fly Fit Jags Athletic Foundation provides the access, equipment, and community support necessary for every young athlete to build character and chase greatness.",
+    "pull": "Confidence. Teamwork. Character. We aren't just building athletes; we're building the community of tomorrow.",
+    "cta": "Apply for Support",
+    "ctaUrl": "#connect"
+  },
+  "journey": {
+    "eyebrow": "International Program",
+    "headline": "Take the Journey — Spain 2026",
+    "body": "Experience more than just competition. This summer, our young athletes travel to Spain to immerse themselves in a world-class sports culture, gain international perspective, and foster character through teamwork and global connection. Every goal scored and every cultural discovery fuels their growth as future leaders.",
+    "cta": "Support the Spain Trip",
+    "ctaUrl": "[[DONATE_URL]]",
+    "artWord": "SPAIN",
+    "artYear": "2026"
+  },
+  "give": {
+    "eyebrow": "Make an Impact",
+    "headline": "Join the Team. Make an Impact.",
+    "body": "Choose how you want to empower the next generation of Jags. Every contribution directly funds sports access, equipment, and character-building opportunities.",
+    "tiers": [
+      {
+        "amount": "$25",
+        "name": "Fuel the Hustle",
+        "body": "Provides essential hydration and nutritious snacks for a squad during an intensive team training session.",
+        "cta": "Donate $25",
+        "url": "[[DONATE_URL_25]]"
+      },
+      {
+        "amount": "$50",
+        "name": "Gear Up",
+        "body": "Covers the complete cost of a high-performance home/away uniform set including safety padding.",
+        "cta": "Donate $50",
+        "url": "[[DONATE_URL_50]]"
+      },
+      {
+        "amount": "$100",
+        "name": "Season Pass",
+        "body": "Sponsors a full season registration fee and regional travel expenses for one deserving local athlete.",
+        "cta": "Donate $100",
+        "url": "[[DONATE_URL_100]]"
+      },
+      {
+        "amount": "Custom",
+        "name": "Impact Pro",
+        "body": "Choose your own amount. Every contribution removes major systemic barriers and builds champions for years to come.",
+        "cta": "Donate Any Amount",
+        "url": "[[DONATE_URL_CUSTOM]]"
+      }
+    ]
+  },
+  "ways": {
+    "eyebrow": "Get Involved",
+    "headline": "More Than One Way In.",
+    "body": "Whether you write a check, give an hour, or need a hand yourself — there's a place for you here.",
+    "cards": [
+      {
+        "title": "Sponsor a Player",
+        "body": "Back a local athlete for a full season, or put your business behind a team. We'll show you exactly where every dollar lands.",
+        "cta": "Partner With Us"
+      },
+      {
+        "title": "Volunteer",
+        "body": "Coach, drive, fundraise, or work a game day. If you've got time and you care about kids, we've got a role for you.",
+        "cta": "Join the Squad"
+      },
+      {
+        "title": "Need Support?",
+        "body": "If cost is what's keeping your athlete off the field, tell us. Applications are reviewed confidentially and judged on need, not paperwork.",
+        "cta": "Apply for Funding"
+      }
+    ]
+  },
+  "marquee": {
+    "text": "FLY FIT JAGS *** IMPACT THE FUTURE *** POWER TO PLAY ***"
+  },
+  "statement": {
+    "text": "Empowering athletes. Removing barriers. Building community."
+  },
+  "connect": {
+    "eyebrow": "Reach Out",
+    "headline": "Let's Talk.",
+    "body": "Tell us which door you're coming through and we'll get back to you. Every message reaches a real person at the foundation.",
+    "fine": "Fly Fit Jags Athletic Foundation is a registered 501(c)(3). We never sell or share your information."
+  },
+  "footer": {
+    "name": "Fly Fit Jags Athletic Foundation",
+    "blurb": "Removing the financial barriers that keep kids off the field — one athlete, one season, one community at a time.",
+    "address": "123 Jags Way, Suite 100, West Palm Beach, FL 33401",
+    "email": "hello@flyfitjags.foundation",
+    "emailUrl": "mailto:hello@flyfitjags.foundation",
+    "status": "Registered 501(c)(3) Nonprofit Organization",
+    "copyright": "© 2026 Fly Fit Jags Athletic Foundation",
+    "credit": "Site by ElVideoCowboy",
+    "facebook": "#",
+    "instagram": "#",
+    "youtube": "#",
+    "x": "#",
+    "linkedin": "#",
+    "tiktok": "#"
+  }
+}

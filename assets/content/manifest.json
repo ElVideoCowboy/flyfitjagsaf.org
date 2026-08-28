@@ -1,0 +1,9 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "name": "Home",
+      "url": "/"
+    }
+  ]
+}

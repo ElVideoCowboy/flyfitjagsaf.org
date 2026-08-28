@@ -18,8 +18,12 @@ export async function onRequestPost(context) {
   }
 
   const adminEmail = String(env.ADMIN_EMAIL || '').trim().toLowerCase();
-  const stored = String(env.ADMIN_PASSWORD_HASH || '');
-  const [saltHex, hashHex] = stored.split(':');
+  // Trim the stored hash AND both halves of it. A value pasted out of a terminal very
+  // often carries a trailing newline or a stray space; that makes the strings different
+  // lengths, timingSafeEqual returns false on the length check, and the correct password
+  // looks wrong forever with no way to tell it apart from a real mismatch.
+  const stored = String(env.ADMIN_PASSWORD_HASH || '').trim();
+  const [saltHex, hashHex] = stored.split(':').map((s) => String(s || '').trim().toLowerCase());
 
   if (!adminEmail || !saltHex || !hashHex || !env.SESSION_SECRET) {
     return jsonResponse({ error: 'Admin login is not configured yet — see README.md' }, 500);
